@@ -39,6 +39,17 @@ if (isMobile.any()) {
 } else {
   document.body.classList.add("_pc");
 }
+// Меню бургер
+// сначала получаем доступ к обьекту
+const iconMenu = document.querySelector(".menu__icon");
+const menuBody = document.querySelector(".menu__body");
+if (iconMenu) {
+  iconMenu.addEventListener("click", () => {
+    document.body.classList.toggle("_lock");
+    iconMenu.classList.toggle("_active");
+    menuBody.classList.toggle("_active");
+  });
+}
 
 // Прокрутка при клике
 // 1. Создаем массив элементов, для которых будем делать, а это
@@ -64,10 +75,17 @@ if (menuLinks.length > 0) {
       // высчитываем положение объекта с учетом высоты шапки
       const gotoBlockValue =
         gotoBlock.getBoundingClientRect().top +
-        pageYOffset -
+        scrollY -
         document.querySelector("header").offsetHeight;
+      // закрываем меню
+      if (iconMenu.classList.contains("_active")) {
+        document.body.classList.remove("_lock");
+        iconMenu.classList.remove("_active");
+        menuBody.classList.remove("_active");
+      }
+
       // это функция скролла
-				window.scrollTo({
+      window.scrollTo({
         top: gotoBlockValue,
         behavior: "smooth",
       });

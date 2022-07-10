@@ -1,4 +1,8 @@
 @import url("./nullstyle.css");
+body._lock {
+	overflow: hidden;
+}
+
 .wrapper {
 }
 
@@ -196,15 +200,49 @@ body._touch .menu__list > li._active .menu__arrow {
 		top: 50%;
 		transform: scale(1) translate(0, -50%);
 	}
+	.menu__icon._active span {
+		transform: scale(0) translate(0, -50%);
+	}
+
+	.menu__icon._active::before {
+		top: 50%;
+		transform: rotate(-45deg) translate(0, -50%);
+	}
+
+	.menu__icon._active::after {
+		top: 50%;
+		transform: rotate(45deg) translate(0, -50%);
+	}
+
 	.menu__body {
 		position: fixed;
 		top: 0;
-		left: 0;
+		left: -100%;
 		width: 100%;
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.9);
 		padding: 100px 30px 30px 30px;
 		transition: left 0.3s ease 0s;
+		/* указываем для того, чтобы была прокрутка,
+		 если меню не поместилось на экране, раз оно
+		  находится в зафиксированной позиции */
+		overflow: auto;
+	}
+	.menu__body._active {
+		left: 0;
+	}
+	/* деалем прокладку между лого+иконкабургера
+	 и самим меню, так как из-за фиксированного позиционирования 
+	 оно налазит друг на друга */
+	.menu__body::before {
+		content: "";
+		position: fixed;
+		width: 100%;
+		top: 0;
+		left: 0;
+		height: 70px;
+		background-color: #912105;
+		z-index: 2;
 	}
 	.menu__list > li + li {
 		margin-top: 30px;
@@ -214,7 +252,7 @@ body._touch .menu__list > li._active .menu__arrow {
 	}
 
 	.menu__list > li._active .menu__sub-list {
-	display: block;
+		display: block;
 	}
 	.menu__link {
 		font-size: 24px;
